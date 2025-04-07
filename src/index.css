@@ -95,6 +95,8 @@ body {
   background-color: var(--color-background-500);
   border-radius: 1rem;
   position: relative;
+  overflow: auto;
+  /* overflow-y: scroll; */
 }
 
 .loader {
