@@ -243,10 +243,6 @@ body {
   gap: 0.8rem;
 }
 
-.summary ~ .list {
-  /* top: 110px; */
-}
-
 .details {
   line-height: 1.4;
   font-size: 1.4rem;

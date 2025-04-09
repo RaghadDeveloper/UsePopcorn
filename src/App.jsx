@@ -9,6 +9,7 @@ import WatchedMoviesList from "./Components/WatchedMoviesList";
 import MoviesList from "./Components/MoviesList";
 import Loader from "./Components/Loader";
 import ErrorMessage from "./Components/ErrorMessage";
+import MovieDetails from "./Components/MovieDetails";
 
 const tempMovieData = [
   {
@@ -58,7 +59,6 @@ const tempWatchedData = [
 ];
 
 const KEY = "cc9b8459";
-// const KEY = "f84fc31d";
 
 export default function App() {
   const [query, setQuery] = useState("");
@@ -66,13 +66,17 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState("tt12280634");
   const tempQuery = "interstellar";
 
-  // useEffect(() => {
-  //   fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=interstellar`)
-  //     .then((res) => res.json())
-  //     .then((data) => setMovies(data.Search));
-  // }, []);
+  function handleSelectMovie(id) {
+    setSelectedId(selectedId === id ? null : id);
+  }
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
   useEffect(
     function () {
       async function fetchMovies() {
@@ -93,6 +97,7 @@ export default function App() {
           }
 
           setMovies(data.Search);
+          console.log(movies.at(0));
         } catch (e) {
           setError(e.message);
         } finally {
@@ -122,14 +127,21 @@ export default function App() {
           ) : error ? (
             <ErrorMessage message={error} />
           ) : (
-            <MoviesList movies={movies} />
+            <MoviesList movies={movies} onSelectMovie={handleSelectMovie} />
           )}
         </Box>
         <Box>
-          <div className="r">
-            <Summary watched={watched} />
-            <WatchedMoviesList watched={watched} />
-          </div>
+          {selectedId ? (
+            <MovieDetails
+              movieId={selectedId}
+              onCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <div className="r">
+              <Summary watched={watched} />
+              <WatchedMoviesList watched={watched} />
+            </div>
+          )}
         </Box>
       </Main>
     </>
