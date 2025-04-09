@@ -66,7 +66,7 @@ export default function App() {
   const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [selectedId, setSelectedId] = useState("tt12280634");
+  const [selectedId, setSelectedId] = useState("");
   const tempQuery = "interstellar";
 
   function handleSelectMovie(id) {
@@ -133,6 +133,7 @@ export default function App() {
         <Box>
           {selectedId ? (
             <MovieDetails
+              key={selectedId}
               movieId={selectedId}
               onCloseMovie={handleCloseMovie}
             />
