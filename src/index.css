@@ -144,6 +144,7 @@ body {
   padding: 0.8rem 0;
   position: absolute;
   top: 0;
+  width: 100%;
 }
 
 .list-watched {
@@ -240,6 +241,10 @@ body {
   display: flex;
   align-items: center;
   gap: 0.8rem;
+}
+
+.summary ~ .list {
+  /* top: 110px; */
 }
 
 .details {
@@ -361,4 +366,17 @@ body {
   width: 30px;
   height: 30px;
   display: block;
+}
+
+.box:nth-child(2) .r {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.box:nth-child(2) .r .list,
+.box:nth-child(2) .r .summary {
+  position: relative;
 }

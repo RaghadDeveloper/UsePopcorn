@@ -58,53 +58,59 @@ const tempWatchedData = [
 ];
 
 const KEY = "cc9b8459";
-// const KEY = "cc9bklnlxc";
+// const KEY = "f84fc31d";
 
 export default function App() {
+  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(tempWatchedData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const query = "interstellar";
+  const tempQuery = "interstellar";
 
   // useEffect(() => {
   //   fetch(`http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=interstellar`)
   //     .then((res) => res.json())
   //     .then((data) => setMovies(data.Search));
   // }, []);
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`
-        );
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const response = await fetch(
+            `http://www.omdbapi.com/?i=tt3896198&apikey=${KEY}&s=${query}`
+          );
 
-        const data = await response.json();
-        if (data.Response === "False") {
-          throw new Error("Movie Not Found!");
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+
+          const data = await response.json();
+          if (data.Response === "False" || !data.Search) {
+            throw new Error("Movie Not Found!");
+          }
+
+          setMovies(data.Search);
+        } catch (e) {
+          setError(e.message);
+        } finally {
+          setIsLoading(false);
         }
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        console.log(data);
-        setMovies(data.Search);
-      } catch (e) {
-        console.error(e.message);
-        setError(e.message);
-      } finally {
-        setIsLoading(false);
       }
-    }
-    fetchMovies();
-  }, []);
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+      } else fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
       <Navbar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <Result movies={movies} />
       </Navbar>
 
@@ -120,8 +126,10 @@ export default function App() {
           )}
         </Box>
         <Box>
-          <Summary watched={watched} />
-          <WatchedMoviesList watched={watched} />
+          <div className="r">
+            <Summary watched={watched} />
+            <WatchedMoviesList watched={watched} />
+          </div>
         </Box>
       </Main>
     </>
