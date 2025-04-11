@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 
-function StarRating({ maxRating = 5, messages = [] }) {
-  console.log(messages);
+function StarRating({ maxRating = 5, messages = [], setUserRating }) {
   const [rating, setRating] = useState(0);
   const [ratingHover, setRatinghover] = useState(0);
+
+  function handleRating(rating) {
+    setUserRating(rating);
+    setRating(rating);
+  }
   return (
     <div className="star-rating">
       <div>
         {Array.from({ length: maxRating }, (_, i) => (
           <Star
             key={i}
-            onRate={() => setRating(i + 1)}
+            onRate={() => handleRating(i + 1)}
             onHoverIn={() => setRatinghover(i + 1)}
             onHoverOut={() => setRatinghover(0)}
             full={ratingHover ? ratingHover >= i + 1 : rating >= i + 1}
