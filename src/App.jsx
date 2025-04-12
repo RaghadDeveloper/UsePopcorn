@@ -117,7 +117,10 @@ export default function App() {
       if (query.length < 3) {
         setMovies([]);
         setError("");
-      } else fetchMovies();
+      } else {
+        // handleCloseMovie();
+        fetchMovies();
+      }
 
       return function () {
         controller.abort();
