@@ -63,7 +63,10 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
   useEffect(
     function () {
       if (title) document.title = `MOVIE | ${title}`;
-      else document.title = "PopCorn";
+
+      return function () {
+        document.title = "popCorn";
+      };
     },
     [title]
   );
