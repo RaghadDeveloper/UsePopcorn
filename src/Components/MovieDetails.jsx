@@ -60,6 +60,14 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
     [movieId]
   );
 
+  useEffect(
+    function () {
+      if (title) document.title = `MOVIE | ${title}`;
+      else document.title = "PopCorn";
+    },
+    [title]
+  );
+
   return (
     <div className="details">
       {isLoading ? (
