@@ -8,6 +8,7 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+  // const [avgRating, setAvgRating] = useState(0);
 
   // const isWatched = watched.some((movie) => movie.imdbID === movieId);
   // const isWatched = watched.find((movie) => movie.imdbID === movieId);
@@ -42,6 +43,9 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
 
     onAddWatch(newWatchedMovie);
     onCloseMovie();
+
+    // setAvgRating(Number(imdbRating));
+    // setAvgRating((avgRating) => (avgRating + userRating) / 2);
   }
 
   useEffect(
@@ -110,6 +114,7 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
                   <span>⭐️</span>
                   {imdbRating} IMDb rating
                 </p>
+                {/* <p>{avgRating}</p> */}
               </div>
             </header>
           )}
