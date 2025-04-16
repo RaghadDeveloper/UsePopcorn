@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StarRating from "./StarRating";
 import Loader from "./Loader";
 
@@ -16,6 +16,8 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
   const watchedUserRating = watched?.find(
     (movie) => movie.imdbID === movieId
   )?.userRating;
+
+  const countRef = useRef(0);
 
   const {
     Title: title,
@@ -39,6 +41,7 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
       runtime: Number(runtime.split(" ").at(0)),
       imdbRating: imdbRating,
       userRating,
+      count: countRef.current,
     };
 
     onAddWatch(newWatchedMovie);
@@ -47,6 +50,13 @@ function MovieDetails({ movieId, onCloseMovie, onAddWatch, watched }) {
     // setAvgRating(Number(imdbRating));
     // setAvgRating((avgRating) => (avgRating + userRating) / 2);
   }
+
+  useEffect(
+    function () {
+      if (userRating) countRef.current++;
+    },
+    [userRating]
+  );
 
   useEffect(
     function () {
